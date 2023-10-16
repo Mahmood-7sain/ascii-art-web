@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ascii-Art-Web</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@600&family=Young+Serif&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+  <!--
+        Created a form that when submitted sends a post request to the route "/ascii-art".
+        The form has a textarea that recieves a string input.
+        It also includes three radio buttons that will be used to select a font/banner.
+        Upon submition the form data will be sent to the golang program where the data will be processed
+        and sent back to be outputed.
+    -->
+
+<body>
+    <div class="container">
+    <h1 style="text-align: center;">Ascii-Art-Web</h1>
+        <form method="POST" action="/ascii-art" id="details">
+            <div class="first">
+            <div class="input">
+                    <textarea name="str" id="string"  maxlength="500" required placeholder="Enter your text here">{{if .Str}}{{.Str}}{{end}}</textarea>
+            </div>
+            <div class="fonts-GT">
+                <select name="banner" id="">
+                    <option value="standard">Standard</option>
+                    <option value="shadow">Shadow</option>
+                    <option value="thinkertoy">Thinkertoy</option>
+                </select>
+            </div>
+
+            <div class="fonts-M">
+                <label>Select Font:</label>
+                <div>
+                    <lable>Standard</lable>
+                    <input type="radio" name="banner" value="standard" checked>
+                </div>
+                
+                <div>
+                    <lable>Shadow</lable>
+                    <input type="radio" name="banner" value="shadow">
+                </div>
+                
+                <div>
+                    <lable>Thinkertoy</lable>
+                    <input type="radio" name="banner" value="thinkertoy">
+                </div>
+            </div>
+
+        </div>
+            <br>
+            <br>
+            <textarea id="output" style="height: 300px; resize: none; overflow-y: scroll;" wrap="off" readonly>{{.Output}}</textarea> 
+            <div class="submit">
+                <input type="submit" id="submitButton" value="Generate">
+            </div>
+        </form>
+    </div>   
+</body>
+</html>
