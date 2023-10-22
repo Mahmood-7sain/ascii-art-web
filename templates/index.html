@@ -57,10 +57,19 @@
             <br>
             <br>
             <textarea id="output" style="height: 300px; resize: none; overflow-y: scroll;" wrap="off" readonly>{{.Output}}</textarea> 
+            <div class="buttons">
             <div class="submit">
                 <input type="submit" id="submitButton" value="Generate">
             </div>
+            {{if .Download}}
+            <div class="down">
+                <a href="/outputFile/output.txt" download>Export</a>
+            </div>
+            {{end}}
+        </div>
         </form>
     </div>   
+
+    
 </body>
 </html>

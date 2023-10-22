@@ -87,11 +87,43 @@ h1{
         color: white;
 }
 
+.buttons {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
 
-.submit {
-    max-width: 200px;
-    margin: 25px auto 0px auto;
+.down{
+    width: 30%;
+    /* margin: 25px auto 0px auto; */
     text-align: center;
+}
+
+.down a{
+    display: block;
+    padding: 10px 35px 10px 35px;
+    font-size: 35px;
+    border-radius: 20px;
+    font-family: 'Pixelify Sans', cursive;
+    border: none;
+    background-color: white;
+    color: black;
+    box-shadow: 0px 10px 3 white;
+    margin: 0 auto;
+    text-decoration: none;
+}
+
+.down a:hover{
+    border: 3px solid white;
+    color: white;
+    background-color: black;
+}
+
+.submit{
+    width: 30%;
+    /* margin: 25px auto 0px auto; */
+    /* text-align: center; */
 }
 
 input[type="submit"]{
@@ -106,9 +138,6 @@ input[type="submit"]{
     margin: 0 auto;
 }
 
-.submit{
-    text-align: center;
-}
 
 input[type="submit"]:hover{
     border: 3px solid white;
@@ -172,6 +201,13 @@ select:hover{
         border-radius: 15px;
     }
 
+    .submit{
+        width: 60%;
+    }
+    .down{
+        width: 60%;
+    }
+
 }
 
 
@@ -183,31 +219,9 @@ select:hover{
         font-size: 50px;
         text-align: center;
     }
-    /* .fonts-GT{
-        display: none;
-    } */
-    /* .fonts-M{
-        display: block;
-        color: white;
-        font-family: 'Pixelify Sans', cursive;
-        border: 2px solid white;
-        width: 100%;
-        border-radius: 10px;
-        padding: 5px 0;
-        margin-top: 10px;
-    } */
 
     .input{
         width: 100%;
     }
 
-    input[type="radio"]:checked{
-        color: black;
-    }
-
-    /* #output{
-        background-color: rgb(26, 24, 24);
-        border-radius: 15px;
-        color: white;
-    } */
 }
