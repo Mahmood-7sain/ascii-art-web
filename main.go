@@ -14,9 +14,11 @@ import (
 	"ascii-art-web-export-file/funcs"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -29,11 +31,11 @@ type Details struct {
 // Struct to save the result after processing
 // The data will be sent to the html files (index.html/error.html)
 type Result struct {
-	Status string //The message to be sent in case of an error (ex.Not Found)
-	Code   int    //The status code (200,400,404,500)
-	Output string //The result of changing the string
-	Str    string //The string to place in the text input
-	Download bool //Controls when to allow output download
+	Status   string //The message to be sent in case of an error (ex.Not Found)
+	Code     int    //The status code (200,400,404,500)
+	Output   string //The result of changing the string
+	Str      string //The string to place in the text input
+	Download bool   //Controls when to allow output download
 }
 
 // The html template that will be used to execut the files
@@ -46,10 +48,11 @@ func main() {
 		log.Fatal(err) //Handling errors
 	}
 
-	http.HandleFunc("/", HomeHandler)    //Handling the path "/": Home page
+	http.HandleFunc("/", HomeHandler)                                                          //Handling the path "/": Home page
 	http.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("styles")))) //Serving css files
 	http.Handle("/outputFile/", http.StripPrefix("/outputFile/", http.FileServer(http.Dir("outputFile"))))
-	http.HandleFunc("/ascii-art", AsciiHandler)    //Handling the output path
+	http.HandleFunc("/ascii-art", AsciiHandler) //Handling the output path
+	http.HandleFunc("/export", ExportFile)
 
 	fmt.Println("Listening on port 8080")
 	er := http.ListenAndServe(":8080", nil) //Creating a server at port 8080
@@ -76,9 +79,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		result.Output = "" //Set the output to be empty
-		result.Str = ""    //Set empty input
-		result.Download = false  //Dont allow download before generating output
+		result.Output = ""      //Set the output to be empty
+		result.Str = ""         //Set empty input
+		result.Download = false //Dont allow download before generating output
 
 		//Execute the template and handle any errors
 		er := tpl.ExecuteTemplate(w, "index.html", &result)
@@ -181,6 +184,45 @@ func AsciiHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorHandler(w, r, &res)
 		return
 	}
+}
+
+func ExportFile(w http.ResponseWriter, r *http.Request) {
+	expRes := Result{}
+	if r.Method == http.MethodPost {
+		if r.URL.Path != "/export" {
+			//Set appropriate status and status code
+		expRes.Code = 400
+		expRes.Status = "Bad Request"
+		ErrorHandler(w, r, &expRes)
+		return
+		}
+		file, errO := os.Open("outputFile/output.txt")
+			if errO != nil {
+				expRes.Status = "Internal Server Error"
+				expRes.Code = 500
+				ErrorHandler(w, r, &expRes)
+				return
+			}
+			fileInfo, errS := file.Stat()
+			if errS != nil {
+				expRes.Status = "Internal Server Error"
+				expRes.Code = 500
+				ErrorHandler(w, r, &expRes)
+				return
+			}
+			fileSize := fileInfo.Size()
+			w.Header().Set("Content-Type", "text/plain")
+			w.Header().Set("Content-Disposition", "attachment; filename=\"outputFile/output.txt\"")
+			w.Header().Set("Content-Length", strconv.FormatInt(fileSize, 10))
+			io.Copy(w, file)
+	} else {
+		//Set appropriate status and status code
+		expRes.Code = 400
+		expRes.Status = "Bad Request"
+		ErrorHandler(w, r, &expRes)
+		return
+	}
+
 }
 
 // ErrorHandler() will send the appropriate error status code and will execute error.html
