@@ -35,24 +35,6 @@
                 </select>
             </div>
 
-            <div class="fonts-M">
-                <label>Select Font:</label>
-                <div>
-                    <lable>Standard</lable>
-                    <input type="radio" name="banner" value="standard" checked>
-                </div>
-                
-                <div>
-                    <lable>Shadow</lable>
-                    <input type="radio" name="banner" value="shadow">
-                </div>
-                
-                <div>
-                    <lable>Thinkertoy</lable>
-                    <input type="radio" name="banner" value="thinkertoy">
-                </div>
-            </div>
-
         </div>
             <br>
             <br>
@@ -62,16 +44,17 @@
                 <input type="submit" id="submitButton" value="Generate">
             </div>
            
-        </div>
-        </form>
-        {{if .Download}}
+            {{if .Download}}
         <div class="down">
             <!-- <a href="/outputFile/output.txt" download>Export</a> -->
-            <form action="/export" method="POST">
-                <input type="submit" value="Export">
-            </form>
+            <!-- <form action="/export" method="POST">
+                <input type="submit" value="Download" id="exp">
+            </form> -->
+            <a href="/export">EXPORT</a>
         </div>
         {{end}}
+        </div>
+        </form>
     </div>   
 
     

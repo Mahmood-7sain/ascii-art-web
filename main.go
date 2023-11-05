@@ -188,7 +188,7 @@ func AsciiHandler(w http.ResponseWriter, r *http.Request) {
 
 func ExportFile(w http.ResponseWriter, r *http.Request) {
 	expRes := Result{}
-	if r.Method == http.MethodPost {
+	if (r.Method == http.MethodGet){
 		if r.URL.Path != "/export" {
 			//Set appropriate status and status code
 		expRes.Code = 400
