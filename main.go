@@ -202,7 +202,7 @@ func ExportFile(w http.ResponseWriter, r *http.Request) {
 		}
 
 		//Giving read+write permissions to all users
-		errP := os.Chmod("outputFile/output.txt", 06666)
+		errP := os.Chmod("outputFile/output.txt", 0666)
 		if errP != nil {
 			expRes.Status = "Internal Server Error"
 			expRes.Code = 500
