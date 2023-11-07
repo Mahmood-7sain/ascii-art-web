@@ -52,7 +52,7 @@ func main() {
 	http.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("styles")))) //Serving css files
 	http.Handle("/outputFile/", http.StripPrefix("/outputFile/", http.FileServer(http.Dir("outputFile"))))
 	http.HandleFunc("/ascii-art", AsciiHandler) //Handling the output path
-	http.HandleFunc("/export", ExportFile)  //Handling the output file export
+	http.HandleFunc("/export", ExportFile)      //Handling the output file export
 
 	fmt.Println("Listening on port 8080")
 	fmt.Println("Navigate to: http://localhost:8080")
@@ -187,47 +187,55 @@ func AsciiHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-
-//Handles the GET request for exporting the output file 
+// Handles the GET request for exporting the output file
 func ExportFile(w http.ResponseWriter, r *http.Request) {
 	expRes := Result{}
 
-	//Checking the method and path 
-	if (r.Method == http.MethodGet){
+	//Checking the method and path
+	if r.Method == http.MethodGet {
 		if r.URL.Path != "/export" {
-		//Set appropriate status and status code
-		expRes.Code = 400
-		expRes.Status = "Bad Request"
-		ErrorHandler(w, r, &expRes)
-		return
+			//Set appropriate status and status code
+			expRes.Code = 400
+			expRes.Status = "Bad Request"
+			ErrorHandler(w, r, &expRes)
+			return
 		}
 
-		//Opens the output file and handles any errors 
+		//Giving read+write permissions to all users
+		errP := os.Chmod("outputFile/output.txt", 06666)
+		if errP != nil {
+			expRes.Status = "Internal Server Error"
+			expRes.Code = 500
+			ErrorHandler(w, r, &expRes)
+			return
+		}
+
+		//Opens the output file and handles any errors
 		file, errO := os.Open("outputFile/output.txt")
-			if errO != nil {
-				expRes.Status = "Internal Server Error"
-				expRes.Code = 500
-				ErrorHandler(w, r, &expRes)
-				return
-			}
+		if errO != nil {
+			expRes.Status = "Internal Server Error"
+			expRes.Code = 500
+			ErrorHandler(w, r, &expRes)
+			return
+		}
 
-			//Getting the file related info to get the file size
-			fileInfo, errS := file.Stat()
-			if errS != nil {
-				expRes.Status = "Internal Server Error"
-				expRes.Code = 500
-				ErrorHandler(w, r, &expRes)
-				return
-			}
-			fileSize := fileInfo.Size()
+		//Getting the file related info to get the file size
+		fileInfo, errS := file.Stat()
+		if errS != nil {
+			expRes.Status = "Internal Server Error"
+			expRes.Code = 500
+			ErrorHandler(w, r, &expRes)
+			return
+		}
+		fileSize := fileInfo.Size()
 
-			//Settting the header data 
-			w.Header().Set("Content-Type", "text/plain")
-			w.Header().Set("Content-Disposition", "attachment; filename=\"outputFile/output.txt\"")
-			w.Header().Set("Content-Length", strconv.FormatInt(fileSize, 10))
+		//Settting the header data
+		w.Header().Set("Content-Type", "text/plain")
+		w.Header().Set("Content-Disposition", "attachment; filename=\"outputFile/output.txt\"")
+		w.Header().Set("Content-Length", strconv.FormatInt(fileSize, 10))
 
-			//Copying the file to the response
-			io.Copy(w, file)
+		//Copying the file to the response
+		io.Copy(w, file)
 	} else {
 		//Set appropriate status and status code
 		expRes.Code = 400
