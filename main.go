@@ -1,4 +1,4 @@
-//Main ascii-art-web program
+//Main ascii-art-web-export-file program
 //Creates a server on port 8080 and listens for any requests
 //Only serves the path "/" using a home handler function
 //Handles client and server side errors using an error handler function
