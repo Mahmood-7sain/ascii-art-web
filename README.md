@@ -5,7 +5,7 @@ Ascii-art-web consists in creating and running a server, in which it will be pos
 
 
 ## Authors
-- Mahmood Almarzooq (malmarzo)
+- Mahmood Almarzooq
 
 ## Usage: How To Run
 - Clone the repository: https://github.com/Mahmood-7sain/ascii-art-web.git
