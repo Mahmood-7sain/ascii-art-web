@@ -8,7 +8,7 @@ Ascii-art-web consists in creating and running a server, in which it will be pos
 - Mahmood Almarzooq (malmarzo)
 
 ## Usage: How To Run
-- Clone the repository: https://learn.reboot01.com/git/malmarzo/ascii-art-web-export-file.git
+- Clone the repository: https://github.com/Mahmood-7sain/ascii-art-web.git
 - Run the command: go run main.go
 - Navigate to: localhost:8080
 
