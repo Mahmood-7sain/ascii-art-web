@@ -1,16 +1,14 @@
-# ascii-art-web-export-file
+# ascii-art-web
 
 ## Description
-Ascii-art-web-export-file consists in running the ascii-art-web project with an added feature to export the output into a text file.
+Ascii-art-web consists in creating and running a server, in which it will be possible to use a web GUI (graphical user interface) version of the project ascii-art. It consists of a form where the user enters a piece of text and selects a banner or a template. The data from the form is then retrieved and processed to produce an output that will be printed on the user's screen. The project is written using HTML,CSS, and golang.
 
 
 ## Authors
 - Mahmood Almarzooq (malmarzo)
-- Yunes Khalifa (yukhalifa)
-
 
 ## Usage: How To Run
-- Clone the repository : https://learn.reboot01.com/git/malmarzo/ascii-art-web-export-file.git
+- Clone the repository: https://learn.reboot01.com/git/malmarzo/ascii-art-web-export-file.git
 - Run the command: go run main.go
-- Navigate to : localhost:8080
+- Navigate to: localhost:8080
 
